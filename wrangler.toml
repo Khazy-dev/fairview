@@ -1,0 +1,12 @@
+# Configuración de Cloudflare Pages + D1 para FairView.
+# Reemplaza database_id con el que te da: npx wrangler d1 create fairview-db
+# (También puedes hacer el binding desde el dashboard: Settings -> Functions -> D1 bindings, nombre "DB".)
+
+name = "fairview"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fairview-db"
+database_id = "52d8ab1c-1aad-4535-a510-2babd3c38f29"

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Reservas • FairView</title>
+
+  <!-- Fuente Poppins desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- TailwindCSS vía CDN. Config extiende fuentes y colores usados en el sitio. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'ui-sans-serif', 'system-ui'],
+          },
+          colors: {
+            ink: '#1c1c1c',
+            stroke: '#e4dbcf',
+          }
+        }
+      }
+    }
+  </script>
+   <link rel="icon" type="image/png" href="img/logo1.png">
+
+  <!-- Iconos de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="font-sans text-ink bg-white">
+  <!-- ============================= NAVBAR FIJA ============================= -->
+  <!--
+    Objetivo: navegación superior fija y responsiva.
+    Claves:
+    - header fijo con blur para que se vea sobre el contenido.
+    - Menú desktop como fila. Menú mobile se abre como lista vertical.
+  -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+    <nav class="bg-[#F4F0E8] w-full h-16 px-2 md:px-4 flex items-center justify-between">
+      <!-- Lado izquierdo: logo y buscador -->
+      <div class="flex items-start gap-3 min-w-0">
+        <a href="home.html" class="shrink-0 block">
+          <!-- Reemplazar la ruta del logo si es necesario -->
+          <img src="img/logo.png" alt="Fairview Bookshop" class="h-12 w-auto mt-[2px]">
+        </a>
+
+        <!-- Buscador visible desde sm hacia arriba -->
+        <div class="relative hidden sm:block">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input type="text" placeholder="Autor, libro o ISBN" aria-label="Buscar"
+            class="w-64 lg:w-72 pl-10 pr-4 h-10 rounded-full bg-gray-50 border border-gray-200 outline-none
+                   placeholder:text-gray-400 focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-black/5 transition" />
+        </div>
+      </div>
+
+              <!-- ICONOS MOBILE -->
+      <div class="flex items-center gap-3 md:hidden ml-auto">
+        <button id="notifBtnMobile"
+          class="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+          <i class="fa-regular fa-bell text-[20px]"></i>
+          <span id="notifBadgeMobile"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+        </button>
+
+        <a href="/profile.html"
+          class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
+          aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+
+
+      </div>
+
+      
+
+      <!-- Botón hamburguesa solo en mobile -->
+      <button id="menuBtn" aria-label="Abrir menú" class="md:hidden text-2xl p-2 rounded-md hover:bg-gray-100">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Menú principal: se oculta en mobile por defecto -->
+      <ul id="menuList" class="hidden md:flex items-center justify-center gap-4 md:gap-10
+               absolute md:static top-16 left-0 right-0
+               bg-white md:bg-transparent border-t md:border-none shadow md:shadow-none
+               py-2 md:py-0 flex-col md:flex-row text-center md:text-left">
+        <!-- Item simple -->
+        <li>
+          <a href="home.html" class="group relative px-1 py-1 font-semibold">
+            Inicio
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+
+        <!-- Dropdown de categorías en desktop y acordeón en mobile -->
+        <li
+          class="relative group before:content-[''] before:absolute before:left-0 before:right-0 md:before:top-full md:before:h-2 before:h-0">
+          <!-- Trigger desktop -->
+          <a href="#" class="hidden md:inline-flex items-center gap-1 px-1 py-1 font-semibold relative">
+            Categorías
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+
+          <!-- Dropdown desktop -->
+          <div class="hidden md:block absolute left-0 top-full mt-2 w-56 rounded-xl border border-gray-100 bg-white shadow-lg z-50
+                       opacity-0 pointer-events-none translate-y-1 transition-all duration-150
+                       group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0">
+            <ul class="py-2">
+              <li><a href="/categorias/Mates.html" class="block px-4 py-2 hover:bg-gray-50">Estadistica y Matematicas</a></li>
+              <li><a href="/categorias/tec.html" class="block px-4 py-2 hover:bg-gray-50">Ingenieria y tecnologia</a></li>
+              <li><a href="/categorias/derecho.html" class="block px-4 py-2 hover:bg-gray-50">Derecho y ciencias Politicas</a></li>
+              <li><a href="/categorias/ciencia.html" class="block px-4 py-2 hover:bg-gray-50">Ciencia</a></li>
+              <li><a href="/categorias/psicologia.html" class="block px-4 py-2 hover:bg-gray-50">Psicologia y Educacion</a></li>
+            </ul>
+          </div>
+
+          <!-- Trigger mobile -->
+          <button id="catBtn"
+            class="md:hidden w-full text-center px-4 py-2 font-semibold inline-flex items-center justify-between"
+            aria-expanded="false" aria-controls="catSub" type="button">
+            <span>Categorías</span>
+            <i id="catIcon" class="fa-solid fa-angle-down text-sm transition-transform duration-200"></i>
+          </button>
+
+          <!-- Submenú mobile -->
+          <ul id="catSub" class="md:hidden hidden flex-col gap-1 px-2 pb-2 pl-6 text-sm font-medium">
+            <li><a href="/categorias/Mates.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Estadistica y Matematicas</a></li>
+            <li><a href="/categorias/tec.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ingenieria y tecnologia</a></li>
+            <li><a href="/categorias/derecho.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Derecho y ciencias Politicas</a></li>
+            <li><a href="/categorias/ciencia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ciencia</a></li>
+            <li><a href="/categorias/psicologia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Psicologia y Educacion</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Otros enlaces -->
+     
+        <li>
+          <a href="reservas.html" class="group relative px-1 py-1 font-semibold">
+            Reservas
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="/lista.html" class="group relative px-1 py-1 font-semibold">
+            Mi lista
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="faqs.html" class="group relative px-1 py-1 font-semibold">
+           FAQs
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Iconos a la derecha (solo desktop) -->
+ <!-- Iconos a la derecha (solo desktop) -->
+
+       <div class="hidden md:flex items-center gap-3 ml-3">
+<a id="notifBtn" class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition relative cursor-pointer">
+  <i class="fa-regular fa-bell text-[20px]"></i>
+  <span id="notifBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+</a>
+
+<!-- Popup -->
+<div id="notifPopup"
+  class="hidden absolute right-12 mt-36 w-64 bg-white shadow-xl rounded-xl border border-gray-100 p-4 text-sm z-50">
+  <p class="font-semibold mb-2">Notificaciones</p>
+  <div id="notifContent" class="space-y-2 text-gray-700"></div>
+</div>
+
+        <a href="profile.html"
+          class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition"
+          aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="h-16"></div>
+
+  <!-- ============================= CONTENIDO ============================= -->
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-extrabold text-center mb-8">Mis Reservas</h1>
+
+    <div id="reservasContainer" class="space-y-4"></div>
+
+    <div id="emptyMsg" class="hidden text-center py-16 text-gray-500">
+      <i class="fa-solid fa-book-open text-4xl mb-4"></i><br>
+      No tienes reservas activas.
+      <div class="mt-5">
+        <a href="home.html" class="bg-indigo-900 text-white px-4 py-2 rounded-lg hover:opacity-90">Explorar libros</a>
+      </div>
+    </div>
+
+    <!-- ===== BOTÓN DE RESERVA (se muestra dinámicamente) ===== -->
+    <div id="btnReservaContainer" class="text-center mt-10 hidden">
+      <button id="abrirPopup" class="bg-indigo-900 text-white px-6 py-2.5 text-lg rounded-lg shadow hover:opacity-90 transition">
+        Reservar ahora
+      </button>
+    </div>
+  </main>
+
+  <!-- ===== POPUP DE RESERVA ===== -->
+  <div id="popupReserva" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-[90%] max-w-md text-center border border-gray-200 max-h-[90vh] overflow-y-auto">
+      <h2 class="text-2xl font-bold mb-1 text-indigo-900">Confirmar reserva</h2>
+      <p class="text-sm text-gray-500 mb-6">Completa tus datos para generar el comprobante de retiro.</p>
+      <div class="space-y-4 text-left">
+        <input id="nombreEst" type="text" placeholder="Nombre completo" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-800 outline-none">
+        <input id="matriculaEst" type="text" placeholder="Matrícula" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-800 outline-none">
+        <input id="emailEst" type="email" placeholder="Correo institucional (@miumg.edu.gt)" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-800 outline-none">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Sucursal de retiro</label>
+          <select id="sucursalEst" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-800 outline-none bg-white">
+            <option value="">Selecciona una sede</option>
+            <option>Campus Central</option>
+            <option>Sede Norte</option>
+            <option>Biblioteca Sur</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Fecha de retiro</label>
+          <input id="fechaRetiro" type="date" class="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-800 outline-none">
+        </div>
+        <label class="flex items-start gap-2 text-xs text-gray-600">
+          <input id="terminosEst" type="checkbox" class="mt-0.5 accent-indigo-900">
+          <span>Acepto las políticas de préstamo y me comprometo a devolver los libros en la fecha indicada.</span>
+        </label>
+      </div>
+      <div class="mt-6 flex gap-3 justify-center">
+        <button id="confirmarReserva" class="bg-indigo-900 text-white px-6 py-2 rounded-lg hover:opacity-90">Confirmar</button>
+        <button id="cerrarPopup" class="bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cont = document.getElementById("reservasContainer");
+    const empty = document.getElementById("emptyMsg");
+    const btnContainer = document.getElementById("btnReservaContainer");
+    let reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+
+    // Perfil/cuenta del estudiante guardado de una sesión anterior (compartido con "Edit profile")
+    const perfil = JSON.parse(localStorage.getItem("perfilFairview")) || null;
+
+    // Días totales del préstamo (referencia para la barra de progreso)
+    const DIAS_PRESTAMO = 30;
+
+    // Dibuja en pantalla todas las tarjetas de reserva
+    function renderReservas() {
+      cont.innerHTML = "";
+
+      if (reservas.length === 0) {
+        empty.classList.remove("hidden");
+        btnContainer.classList.add("hidden");
+        return;
+      }
+
+      empty.classList.add("hidden");
+      btnContainer.classList.remove("hidden");
+
+      // Banner con los datos del estudiante (solo si ya completó su perfil)
+      if (perfil && perfil.fullName) {
+        const banner = document.createElement("div");
+        banner.className = "bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-center gap-3";
+        banner.innerHTML = `
+          <i class="fa-solid fa-id-card text-indigo-900 text-2xl"></i>
+          <div class="text-sm">
+            <p class="font-semibold text-indigo-900">${perfil.fullName}</p>
+            <p class="text-gray-600">${perfil.matricula ? "Matrícula " + perfil.matricula + " · " : ""}${perfil.email || ""}</p>
+          </div>
+          <span class="ml-auto text-xs font-medium text-indigo-900">${reservas.length}/6 reservas</span>
+        `;
+        cont.appendChild(banner);
+      }
+
+      reservas.forEach((r, i) => {
+        const diasRestantes = Math.ceil((new Date(r.entrega) - new Date()) / 86400000);
+        const vencida = diasRestantes <= 0;
+        const estado = vencida ? "Vencida" : "Activa";
+        const color = vencida ? "text-red-600" : "text-green-700";
+
+        // Barra de progreso del préstamo (días usados sobre el total)
+        const usados = Math.min(DIAS_PRESTAMO, Math.max(0, DIAS_PRESTAMO - diasRestantes));
+        const pct = Math.min(100, Math.round((usados / DIAS_PRESTAMO) * 100));
+        const barra = vencida ? "bg-red-500" : diasRestantes <= 5 ? "bg-amber-500" : "bg-green-600";
+
+        const card = document.createElement("div");
+        card.className = `
+          bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_4px_20px_rgba(0,0,0,0.05)]
+          rounded-2xl flex items-center gap-5 p-5 hover:shadow-[0_6px_25px_rgba(0,0,0,0.1)] transition
+        `;
+        card.innerHTML = `
+          <img src="${r.img}" alt="${r.title}" class="w-20 h-24 object-contain rounded-xl bg-gray-50 p-1.5 shadow-inner">
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold">${r.title}</h3>
+            <p class="text-sm text-gray-600">${r.author}</p>
+            ${r.isbn ? `<p class="text-xs text-gray-400 mt-1">ISBN: ${r.isbn}</p>` : ""}
+            ${r.alumno ? `<p class="text-xs text-indigo-900 mt-1"><i class="fa-regular fa-user"></i> ${r.alumno}</p>` : ""}
+            <p class="text-xs text-gray-500 mt-2">Reservado el <b>${r.date}</b></p>
+            <p class="text-xs ${color} font-medium mt-1">Devolver antes del ${r.entrega || "—"}</p>
+            <div class="mt-2 h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full ${barra} rounded-full" style="width:${pct}%"></div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="block text-sm font-semibold ${color} mb-1">${estado}</span>
+            <span class="block text-xs text-gray-500 mb-2">${vencida ? "Plazo cumplido" : diasRestantes + " día(s) restantes"}</span>
+            <button data-i="${i}" class="renew-btn block w-full text-indigo-900 text-xs font-medium hover:underline mb-1">Renovar +15 días</button>
+            <button data-i="${i}" class="cancel-btn text-red-600 text-xs font-medium hover:underline">Cancelar</button>
+          </div>
+        `;
+        cont.appendChild(card);
+      });
+    }
+
+    renderReservas();
+
+    cont.addEventListener("click", e => {
+      const cancelar = e.target.closest(".cancel-btn");
+      const renovar = e.target.closest(".renew-btn");
+
+      if (cancelar) {
+        const tituloCancelado = reservas[cancelar.dataset.i]?.title;
+        reservas.splice(cancelar.dataset.i, 1);
+        localStorage.setItem("reservas", JSON.stringify(reservas));
+        renderReservas();
+        window.updateNotifications?.();
+        window.FairviewCloud?.removeReserva(tituloCancelado);
+      }
+
+      if (renovar) {
+        const idx = renovar.dataset.i;
+        const nueva = new Date(reservas[idx].entrega);
+        nueva.setDate(nueva.getDate() + 15);
+        reservas[idx].entrega = nueva.toLocaleDateString('es-ES');
+        localStorage.setItem("reservas", JSON.stringify(reservas));
+        renderReservas();
+        window.FairviewCloud?.addReserva(reservas[idx]);
+      }
+    });
+
+    // === POPUP DE RESERVA ===
+    const popup = document.getElementById("popupReserva");
+    const abrir = document.getElementById("abrirPopup");
+    const cerrar = document.getElementById("cerrarPopup");
+    const confirmar = document.getElementById("confirmarReserva");
+
+    // Precarga los datos de la cuenta si ya están guardados
+    if (perfil) {
+      document.getElementById("nombreEst").value = perfil.fullName || "";
+      document.getElementById("matriculaEst").value = perfil.matricula || "";
+      document.getElementById("emailEst").value = perfil.email || "";
+    }
+
+    // La fecha de retiro no puede ser anterior a hoy
+    const hoyISO = new Date().toISOString().split("T")[0];
+    const fechaRetiroInput = document.getElementById("fechaRetiro");
+    if (fechaRetiroInput) { fechaRetiroInput.min = hoyISO; fechaRetiroInput.value = hoyISO; }
+
+    if (abrir) abrir.addEventListener("click", () => popup.classList.remove("hidden"));
+    if (cerrar) cerrar.addEventListener("click", () => popup.classList.add("hidden"));
+
+    if (confirmar) confirmar.addEventListener("click", () => {
+      const nombre = document.getElementById("nombreEst").value.trim();
+      const matricula = document.getElementById("matriculaEst").value.trim();
+      const email = document.getElementById("emailEst").value.trim();
+      const sucursal = document.getElementById("sucursalEst").value;
+      const fecha = document.getElementById("fechaRetiro").value;
+      const terminos = document.getElementById("terminosEst").checked;
+
+      if (!nombre || !matricula || !email) {
+        alert("Por favor completa todos los campos.");
+        return;
+      }
+
+      const regex = /^[a-zA-Z0-9._%+-]+@miumg\.edu\.gt$/;
+      if (!regex.test(email)) {
+        alert("El correo debe ser institucional (@miumg.edu.gt).");
+        return;
+      }
+
+      if (!sucursal) { alert("Selecciona una sucursal de retiro."); return; }
+      if (!fecha) { alert("Selecciona la fecha de retiro."); return; }
+      if (!terminos) { alert("Debes aceptar las políticas de préstamo para continuar."); return; }
+
+      // Estado de carga, para que se sienta como un proceso real
+      popup.innerHTML = `
+        <div class='bg-white rounded-2xl shadow-2xl p-10 w-[90%] max-w-md text-center'>
+          <i class="fa-solid fa-spinner fa-spin text-indigo-900 text-4xl mb-4"></i>
+          <p class='text-gray-700 font-medium'>Procesando tu reserva...</p>
+        </div>`;
+
+      setTimeout(() => {
+        // Genera un folio único para el comprobante
+        const folio = "FV-" + Date.now().toString(36).slice(-6).toUpperCase();
+        const fechaRetiroTxt = new Date(fecha + "T00:00:00").toLocaleDateString("es-ES", { day: "2-digit", month: "long", year: "numeric" });
+
+        // Guarda/actualiza la cuenta y asocia los datos del retiro a cada reserva
+        localStorage.setItem("perfilFairview", JSON.stringify({ ...(perfil || {}), fullName: nombre, matricula, email }));
+        reservas = reservas.map(r => ({ ...r, alumno: nombre, sucursal, folio, retiro: fecha }));
+        localStorage.setItem("reservas", JSON.stringify(reservas));
+        window.FairviewCloud?.upsertUsuario(nombre, email);
+        reservas.forEach(r => window.FairviewCloud?.addReserva(r));
+
+        // Lista de libros del comprobante
+        const filas = reservas.map(r => `
+          <li class="flex justify-between gap-3 py-1.5 border-b border-gray-100 last:border-0">
+            <span class="text-left">${r.title}</span>
+            <span class="text-gray-500 whitespace-nowrap">↩ ${r.entrega}</span>
+          </li>`).join("");
+
+        popup.innerHTML = `
+          <div class='bg-white rounded-2xl shadow-2xl w-full max-w-md text-center overflow-hidden max-h-[90vh] flex flex-col'>
+            <div class="bg-indigo-900 text-white p-6 shrink-0">
+              <i class="fa-solid fa-circle-check text-4xl mb-2"></i>
+              <p class="text-lg font-bold">¡Reserva confirmada!</p>
+              <p class="text-indigo-200 text-sm">Folio ${folio}</p>
+            </div>
+            <div class="p-6 text-left text-sm overflow-y-auto">
+              <div class="grid grid-cols-2 gap-2 mb-4">
+                <div><p class="text-gray-400 text-xs">Estudiante</p><p class="font-medium break-words">${nombre}</p></div>
+                <div><p class="text-gray-400 text-xs">Matrícula</p><p class="font-medium break-words">${matricula}</p></div>
+                <div><p class="text-gray-400 text-xs">Sucursal</p><p class="font-medium break-words">${sucursal}</p></div>
+                <div><p class="text-gray-400 text-xs">Retiro</p><p class="font-medium break-words">${fechaRetiroTxt}</p></div>
+              </div>
+              <p class="text-gray-400 text-xs mb-1">Libros (${reservas.length})</p>
+              <ul class="mb-4">${filas}</ul>
+              <p class="text-xs text-gray-500 break-words">📧 Enviamos una copia del comprobante a <b>${email}</b>.</p>
+            </div>
+            <div class="px-6 pb-6 shrink-0">
+              <button onclick="window.location.href='home.html'"
+                      class="w-full bg-indigo-900 text-white px-6 py-2.5 rounded-lg hover:opacity-90">
+                Ir al inicio
+              </button>
+            </div>
+          </div>`;
+      }, 900);
+    });
+  </script>
+
+  <script src="script.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+</body>
+</html>

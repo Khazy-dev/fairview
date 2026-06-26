@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matematicas • FairView</title>
+
+  <!-- Fuente Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins', 'ui-sans-serif', 'system-ui'] },
+          colors: { ink: '#1c1c1c', stroke: '#e4dbcf' }
+        }
+      }
+    }
+  </script>
+
+
+   <link rel="icon" type="image/png" href="/img/logo1.png">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="font-sans text-ink bg-white">
+  <!-- ============================= NAVBAR ============================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+    <nav class="bg-[#F4F0E8] w-full h-16 px-2 md:px-4 flex items-center justify-between">
+      <!-- Izquierda -->
+      <div class="flex items-start gap-3 min-w-0">
+        <a href="/home.html" class="shrink-0 block">
+          <img src="/img/logo.png" alt="Fairview Bookshop" class="h-12 w-auto mt-[2px]">
+        </a>
+
+        <!-- Buscador -->
+        <div class="relative hidden sm:block">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input type="text" placeholder="Autor, libro o ISBN" aria-label="Buscar"
+            class="w-64 lg:w-72 pl-10 pr-4 h-10 rounded-full bg-gray-50 border border-gray-200 outline-none
+                   placeholder:text-gray-400 focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-black/5 transition" />
+        </div>
+      </div>
+
+        <!-- ICONOS MOBILE -->
+      <div class="flex items-center gap-3 md:hidden ml-auto">
+        <button id="notifBtnMobile"
+          class="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+          <i class="fa-regular fa-bell text-[20px]"></i>
+          <span id="notifBadgeMobile"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+        </button>
+
+        <a href="/profile.html"
+          class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
+          aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+
+
+      </div>
+
+      <!-- Hamburguesa -->
+      <button id="menuBtn" aria-label="Abrir menú" class="md:hidden text-2xl p-2 rounded-md hover:bg-gray-100">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Menú -->
+      <ul id="menuList" class="hidden md:flex items-center justify-center gap-4 md:gap-10
+               absolute md:static top-16 left-0 right-0
+               bg-white md:bg-transparent border-t md:border-none shadow md:shadow-none
+               py-2 md:py-0 flex-col md:flex-row text-center md:text-left">
+
+        <li>
+          <a href="/home.html" class="group relative px-1 py-1 font-semibold">
+            Inicio
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+
+        <!-- Categorías -->
+        <li class="relative group before:content-[''] before:absolute before:left-0 before:right-0 md:before:top-full md:before:h-2 before:h-0">
+          <!-- Desktop trigger -->
+          <a href="#" class="hidden md:inline-flex items-center gap-1 px-1 py-1 font-semibold relative">
+            Categorías
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+
+          <!-- Desktop dropdown -->
+          <div class="hidden md:block absolute left-0 top-full mt-2 w-56 rounded-xl border border-gray-100 bg-white shadow-lg z-50
+                       opacity-0 pointer-events-none translate-y-1 transition-all duration-150
+                       group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0">
+            <ul class="py-2">
+              <li><a href="/categorias/Mates.html" class="block px-4 py-2 hover:bg-gray-50">Estadística y Matemáticas</a></li>
+              <li><a href="/categorias/tec.html" class="block px-4 py-2 hover:bg-gray-50">Ingeniería y tecnología</a></li>
+              <li><a href="/categorias/derecho.html" class="block px-4 py-2 hover:bg-gray-50">Derecho y ciencias políticas</a></li>
+              <li><a href="/categorias/ciencia.html" class="block px-4 py-2 hover:bg-gray-50">Ciencia</a></li>
+              <li><a href="/categorias/psicologia.html" class="block px-4 py-2 hover:bg-gray-50">Psicologia</a></li>
+            </ul>
+          </div>
+
+          <!-- Mobile trigger -->
+          <button id="catBtn" class="md:hidden w-full text-center px-4 py-2 font-semibold inline-flex items-center justify-between"
+            aria-expanded="false" aria-controls="catSub" type="button">
+            <span>Categorías</span>
+            <i id="catIcon" class="fa-solid fa-angle-down text-sm transition-transform duration-200"></i>
+          </button>
+
+          <!-- Mobile submenu (FIX: quitado </li> extra) -->
+          <ul id="catSub" class="md:hidden hidden flex-col gap-1 px-2 pb-2 pl-6 text-sm font-medium">
+            <li><a href="/categorias/Mates.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Estadística y Matemáticas</a></li>
+            <li><a href="/categorias/tec.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ingeniería y tecnología</a></li>
+            <li><a href="/categorias/derecho.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Derecho y ciencias políticas</a></li>
+            <li><a href="/categorias/ciencia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ciencia</a></li>
+            <li><a href="/categorias/psicologia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Psicología y educación</a></li>
+          </ul>
+        </li>
+
+       
+        <li>
+          <a href="/reservas.html" class="group relative px-1 py-1 font-semibold">
+            Reservas
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="/lista.html" class="group relative px-1 py-1 font-semibold">
+            Mi lista
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="/faqs.html" class="group relative px-1 py-1 font-semibold">
+            FAQs
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Iconos a la derecha (solo desktop) -->
+
+       <div class="hidden md:flex items-center gap-3 ml-3">
+<a id="notifBtn" class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition relative cursor-pointer">
+  <i class="fa-regular fa-bell text-[20px]"></i>
+  <span id="notifBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+</a>
+
+<!-- Popup -->
+<div id="notifPopup"
+  class="hidden absolute right-12 mt-36 w-64 bg-white shadow-xl rounded-xl border border-gray-100 p-4 text-sm z-50">
+  <p class="font-semibold mb-2">Notificaciones</p>
+  <div id="notifContent" class="space-y-2 text-gray-700"></div>
+</div>
+
+
+
+      
+        <a href="/profile.html" class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition" aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- spacer -->
+  <div class="h-16"></div>
+
+  <!-- ============================= MAIN ============================= -->
+  <main class="max-w-[1400px] mx-auto px-3 md:px-6 py-12">
+<!-- HERO / VANTA GLOBE + EFECTO DE ESCRITURA -->
+<section id="math-hero" aria-label="Matemáticas"
+  class="relative h-[65vh] min-h-[320px] overflow-hidden flex items-center justify-center rounded-2xl">
+
+  <!-- Fondo animado (Vanta Globe) -->
+  <div id="vanta-globe" class="absolute inset-0"></div>
+
+  <!-- Capa oscura -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+  <!-- Texto con efecto -->
+  <div class="relative z-10 flex flex-col items-center text-center px-4">
+    <h1
+      class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5 text-4xl sm:text-5xl md:text-6xl font-extrabold text-white">
+      Estadistica y Matemáticas
+    </h1>
+    <p class="mt-4 text-white/90 text-lg sm:text-xl font-medium">
+      Donde los números conectan el mundo.
+    </p>
+  </div>
+</section>
+
+<!-- Tailwind keyframes para el efecto typing -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        keyframes: {
+          typing: { "0%": { width: "0%", visibility: "hidden" }, "100%": { width: "100%" } },
+          blink: { "50%": { borderColor: "transparent" }, "100%": { borderColor: "white" } }
+        },
+        animation: { typing: "typing 3s steps(30) infinite alternate, blink .8s infinite" }
+      }
+    }
+  };
+</script>
+
+<!-- Librerías de Vanta y Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.globe.min.js"></script>
+
+    <!-- POPULARES -->
+    <section class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 mt-10">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-extrabold text-[#443c67]">Populares</h3>
+
+      </div>
+
+      <div class="mt-6">
+        <!-- Carrusel mobile (añadido pr-4 para que no se corte el último slide) -->
+        <div class="md:hidden overflow-x-auto flex gap-4 snap-x snap-mandatory pb-2 pr-4">
+          <!-- Libro 1 -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Álgebra Lineal" data-author="David C. Lay" data-image="/libros/algebra.jpg"
+            data-rating="4" data-isbn="9789702609063" data-year="2007" data-pages="584" data-genero="Matemáticas"
+            data-description="el libro proporciona un apoyo sustancial tanto para la enseñanza como para el uso de la tecnología en el curso. el texto presenta una introducción elemental moderna al álgebra lineal y una amplia selección de interesantes aplicaciones.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/algebra.jpg" alt="Álgebra Lineal" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Álgebra Lineal</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">David C. Lay</p>
+          </article>
+
+          <!-- Libro 2 -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Calculo" data-author="James Stewart" data-image="/libros/calculo.jpg" data-rating="4"
+            data-isbn="100538498714" data-year="2004" data-pages="648" data-genero="Matematicas"
+            data-description="Es uno de los textos más utilizados en el mundo para cursos de cálculo diferencial e integral, tanto a nivel universitario como en bachilleratos avanzados. Está diseñado para estudiantes de ciencias, ingeniería y matemáticas, aunque también lo usan en otras disciplinas técnicas.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/calculo.jpg" alt="Calculo" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Calculo</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">James Stewart</p>
+          </article>
+
+          <!-- Libro 3 -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Estadistica" data-author="Mario F. Triola" data-image="/libros/Estadistica.png" data-rating="4"
+            data-isbn="9789702605751" data-year="2007" data-pages="648" data-genero="Estadistica"
+            data-description="La meta se logra utilizando un estilo ameno de escritura, interesantes ejemplos, ejercicios basados en datos reales y abundantes elementos didácticos.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/Estadistica.png" alt="Estadistica" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Estadistica</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Mario F. Triola</p>
+          </article>
+
+          <!-- Libro 4 -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Matematica discreta y sus aplicaciones" data-author="Kenneth H. Rosen" data-image="/libros/mate.jpg"
+            data-rating="4" data-isbn="9788448140731" data-year="2004" data-pages="200" data-genero="Matematica"
+            data-description="Matematica contemporánea que explora espiritualidad, marginalidad y destinos cruzados en Bogotá.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/mate.jpg" alt="Matematica discreta y sus aplicaciones" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Matematica discreta y sus aplicaciones</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Kenneth H. Rosen</p>
+          </article>
+        </div>
+
+        <!-- Grilla desktop -->
+        <div class="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-10">
+          <!-- Libro 1 -->
+          <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Álgebra Lineal" data-author="David C. Lay" data-image="/libros/algebra.jpg"
+            data-rating="5" data-isbn="9789702609063" data-year="2007" data-pages="584" data-genero="Matemáticas"
+            data-description="el libro proporciona un apoyo sustancial tanto para la enseñanza como para el uso de la tecnología en el curso. el texto presenta una introducción elemental moderna al álgebra lineal y una amplia selección de interesantes aplicaciones.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/algebra.jpg" alt="Álgebra Lineal" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Álgebra Lineal</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">David C. Lay</p>
+          </article>
+
+          <!-- Libro 2 -->
+          <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Calculo" data-author="James Stewart" data-image="/libros/calculo.jpg" data-rating="4"
+            data-isbn="100538498714" data-year="2004" data-pages="648" data-genero="Matematicas"
+            data-description="Es uno de los textos más utilizados en el mundo para cursos de cálculo diferencial e integral, tanto a nivel universitario como en bachilleratos avanzados. Está diseñado para estudiantes de ciencias, ingeniería y matemáticas, aunque también lo usan en otras disciplinas técnicas.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/calculo.jpg" alt="Calculo" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Calculo</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">James Stewart</p>
+          </article>
+
+          <!-- Libro 3 -->
+          <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Estadistica" data-author="Mario F. Triola" data-image="/libros/Estadistica.png" data-rating="4"
+            data-isbn="9789702605751" data-year="2007" data-pages="648" data-genero="Estadistica"
+            data-description="La meta se logra utilizando un estilo ameno de escritura, interesantes ejemplos, ejercicios basados en datos reales y abundantes elementos didácticos.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/Estadistica.png" alt="Estadistica" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Estadistica</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Mario F. Triola</p>
+          </article>
+
+          <!-- Libro 4 -->
+          <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Matematica discreta y sus aplicaciones" data-author="Kenneth H. Rosen" data-image="/libros/mate.jpg"
+            data-rating="4" data-isbn="9788448140731" data-year="2004" data-pages="200" data-genero="Matematica"
+            data-description="Matematica contemporánea que explora espiritualidad, marginalidad y destinos cruzados en Bogotá.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/mate.jpg" alt="Matematica discreta y sus aplicaciones" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Matematica discreta y sus aplicaciones</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Kenneth H. Rosen</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÁS LEÍDOS -->
+    <section class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 mt-12">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-extrabold text-[#443c67]">Más leídos</h3>
+      </div>
+
+      <!-- Carrusel mobile (FIX: añadido Libro 4 + pr-4) -->
+      <div class="md:hidden overflow-x-auto flex gap-4 snap-x snap-mandatory mt-6 pb-2 pr-4">
+        <!-- Libro 1 -->
+        <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Matemáticas concretas" data-author="Ronald L. Graham; Donald Knuth; Oren Patashnik" data-image="/libros/concreta.jpg"
+          data-rating="4" data-isbn="9780201558029" data-year="2023" data-pages="672" data-genero="Matemáticas discretas"
+          data-description="Testimonio y visión de la logoterapia sobre el propósito de vida a partir de la experiencia en campos de concentración.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/concreta.jpg" alt="Matemáticas concretas" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Matemáticas concretas</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Ronald L. Graham; Donald Knuth; Oren Patashnik</p>
+        </article>
+
+        <!-- Libro 2 -->
+        <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Fundamentos de Probabilidad y Estadística" data-author="Jay L. Devore" data-image="/libros/JayL.jpg" data-rating="4"
+          data-isbn="9786075266633" data-year="2019" data-pages="376" data-genero="Estadística"
+          data-description="Propósito El uso de modelos de probabilidad y métodos estadísticos para analizar datos se ha convertido en una práctica común en virtualmente todas las disciplinas científicas. ">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/JayL.jpg" alt="Fundamentos de Probabilidad y Estadística" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Fundamentos de Probabilidad y Estadística</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Jay L. Devore</p>
+        </article>
+
+        <!-- Libro 3 -->
+        <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Cálculo. Trascendentes Tempranas" data-author="James Stewart" data-image="/libros/james.jpg"
+          data-rating="4" data-isbn="9786075265483" data-year="2018" data-pages="1416" data-genero="Matematica"
+          data-description="Matematica contemporánea que explora espiritualidad, marginalidad y destinos cruzados en Bogotá.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/james.jpg" alt="Cálculo. Trascendentes Tempranas" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Cálculo. Trascendentes Tempranas</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">James Stewart</p>
+        </article>
+
+        <!-- Libro 4 (AÑADIDO) -->
+        <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Fundamentos de matemática universitaria" data-author="Natalia Rodríguez" data-image="/libros/jeffry.jpg"
+          data-rating="4" data-isbn="9789977665412" data-year="2023" data-pages="624" data-genero="Matematica"
+          data-description="Este libro está dirigida a quienes desean comprender y profundizar en los conceptos fundamentales de las matemáticas universitarias antes del cálculo.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/jeffry.jpg" alt="Fundamentos de matemática universitaria" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Fundamentos de matemática universitaria</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Natalia Rodríguez</p>
+        </article>
+      </div>
+
+      <!-- Grilla2  desktop -->
+      <div class="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-10 mt-6">
+        <!-- Libro 1 -->
+        <article
+          class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Matemáticas concretas" data-author="Ronald L. Graham; Donald Knuth; Oren Patashnik" data-image="/libros/concreta.jpg"
+          data-rating="4" data-isbn="9780201558029" data-year="2023" data-pages="672" data-genero="Matemáticas discretas"
+          data-description="Testimonio y visión de la logoterapia sobre el propósito de vida a partir de la experiencia en campos de concentración.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/concreta.jpg" alt="Matemáticas concretas" class="h-full w-full object-contain p-2">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Matemáticas concretas</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500">
+            <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Ronald L. Graham; Donald Knuth; Oren Patashnik</p>
+        </article>
+
+        <!-- Libro 2 -->
+        <article
+          class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Fundamentos de Probabilidad y Estadística" data-author="Jay L. Devore" data-image="/libros/JayL.jpg" data-rating="4"
+          data-isbn="9786075266633" data-year="2019" data-pages="376" data-genero="Estadística"
+          data-description="Propósito El uso de modelos de probabilidad y métodos estadísticos para analizar datos se ha convertido en una práctica común en virtualmente todas las disciplinas científicas. ">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/JayL.jpg" alt="Fundamentos de Probabilidad y Estadística" class="h-full w-full object-contain p-2">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Fundamentos de Probabilidad y Estadística</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500">
+            <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Jay L. Devore</p>
+        </article>
+
+        <!-- Libro 3 DESKTOP--> 
+        <article
+          class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Cálculo. Trascendentes Tempranas" data-author="James Stewart" data-image="/libros/james.jpg"
+          data-rating="4" data-isbn="9786075265483" data-year="2018" data-pages="1416" data-genero="Matematica"
+          data-description="Cálculo, Trascendentes Tempranas de Stewart es ampliamente reconocido por su precisión matemática y exactitud, claridad de la exposición y notables ejemplos y conjuntos de problemas.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/james.jpg" alt="Cálculo. Trascendentes Tempranas" class="h-full w-full object-contain p-2">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Cálculo. Trascendentes Tempranas</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500">
+            <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">James Stewart</p>
+        </article>
+
+        <!-- Libro 4 -->
+        <article
+          class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Fundamentos de matemática universitaria" data-author="Natalia Rodríguez" data-image="/libros/jeffry.jpg"
+          data-rating="4" data-isbn="9789977665412" data-year="2023" data-pages="624" data-genero="Matematica"
+          data-description="Este libro está dirigida a quienes desean comprender y profundizar en los conceptos fundamentales de las matemáticas universitarias antes del cálculo.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/jeffry.jpg" alt="Fundamentos de matemática universitaria" class="h-full w-full object-contain p-2">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Fundamentos de matemática universitaria</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500">
+            <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Natalia Rodríguez</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================= FOOTER ============================= -->
+  <footer class="w-full bg-[#F4F0E8]" aria-labelledby="footer-title">
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+
+    <div class="mx-auto max-w-7xl px-6 sm:px-8 pt-10 pb-8">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <!-- Col 1 -->
+        <div>
+          <h2 id="footer-title" class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">FairView</h2>
+          <p class="mt-3 text-sm leading-6 text-slate-700 max-w-sm">
+            Reservá tus libros favoritos fácilmente. FairView te conecta con Estadisticas y conocimiento sin complicaciones.
+          </p>
+        </div>
+
+        <!-- Col 2 -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-700">Inicio</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Inicio</a></li>
+            <li><a href="#" class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Categorías</a></li>
+            <li><a href="/reservas.html" class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Reservas</a></li>
+            <li><a href="#" class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Ayuda</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-700">Contáctanos</h3>
+          <div class="space-y-2 text-sm">
+            <p class="text-slate-700">
+              Teléfono:
+              <a href="tel:+50255555555" class="font-medium text-slate-900 hover:underline underline-offset-4">+502 5555 5555</a>
+            </p>
+            <p class="text-slate-700">
+              Email:
+              <a href="mailto:contacto.fairview@gmail.com" class="font-medium text-slate-900 hover:underline underline-offset-4">contacto.fairview@gmail.com</a>
+            </p>
+          </div>
+
+          <!-- Redes -->
+          <div class="mt-4 flex items-center gap-3">
+            <a href="#" aria-label="Facebook" class="block transition-opacity text-inherit hover:opacity-80">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+
+            <a href="#" aria-label="Instagram" class="block transition-opacity text-inherit hover:opacity-80">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 71 72" fill="none">
+                <path d="M27.3762 35.7808C27.3762 31.1786 31.1083 27.4468 35.7132 27.4468C40.3182 27.4468 44.0522 31.1786 44.0522 35.7808C44.0522 40.383 40.3182 44.1148 35.7132 44.1148C31.1083 44.1148 27.3762 40.383 27.3762 35.7808ZM22.8683 35.7808C22.8683 42.8708 28.619 48.618 35.7132 48.618C42.8075 48.618 48.5581 42.8708 48.5581 35.7808C48.5581 28.6908 42.8075 22.9436 35.7132 22.9436C28.619 22.9436 22.8683 28.6908 22.8683 35.7808ZM46.0648 22.4346C46.0646 23.0279 46.2404 23.608 46.5701 24.1015C46.8997 24.595 47.3684 24.9797 47.9168 25.2069C48.4652 25.4342 49.0688 25.4939 49.6511 25.3784C50.2334 25.2628 50.7684 24.9773 51.1884 24.5579C51.6084 24.1385 51.8945 23.6041 52.0105 23.0222C52.1266 22.4403 52.0674 21.8371 51.8404 21.2888C51.6134 20.7406 51.2289 20.2719 50.7354 19.942C50.2418 19.6122 49.6615 19.436 49.0679 19.4358H49.0667C48.2708 19.4361 47.5077 19.7522 46.9449 20.3144C46.3821 20.8767 46.0655 21.6392 46.0648 22.4346ZM25.6072 56.1302C23.1683 56.0192 21.8427 55.6132 20.9618 55.2702C19.7939 54.8158 18.9606 54.2746 18.0845 53.4002C17.2083 52.5258 16.666 51.6938 16.2133 50.5266C15.8699 49.6466 15.4637 48.3214 15.6248 45.884C15.2316 43.2488 15.2073 42.4572 15.2073 35.781C15.2073 29.1048 15.2336 28.3154 15.6248 25.678C15.4639 23.2406 15.8731 21.918 16.2133 21.0354C16.668 19.8682 17.2095 19.0354 18.0845 18.1598C18.9594 17.2842 19.7919 16.7422 20.9618 16.2898C21.8423 15.9466 23.1683 15.5406 25.6072 15.4298C28.244 15.3086 29.036 15.2844 35.7132 15.2844C42.3904 15.2844 43.1833 15.3106 45.8223 15.4298C48.2612 15.5408 49.5846 15.9498 50.4677 16.2898C51.6356 16.7422 52.4689 17.2854 53.345 18.1598C54.2211 19.0342 54.7615 19.8682 55.2161 21.0354C55.5595 21.9154 55.9658 23.2406 56.0767 25.678C56.1979 28.3154 56.2221 29.1048 56.2221 35.781C56.2221 42.4572 56.1979 43.2466 56.0767 45.884C55.9656 48.3214 55.5573 49.6462 55.2161 50.5266C54.7615 51.6938 54.2199 52.5266 53.345 53.4002C52.4701 54.2738 51.6356 54.8158 50.4677 55.2702C49.5872 55.6134 48.2612 56.0194 45.8223 56.1302C43.1855 56.2514 42.3934 56.2756 35.7132 56.2756C29.033 56.2756 28.2432 56.2514 25.6072 56.1302Z"
+                  fill="#111827" />
+              </svg>
+            </a>
+
+            <a href="#" aria-label="X" class="block transition-opacity text-inherit hover:opacity-80">
+              <svg class="h-4 w-4 text-slate-700 transition group-hover:scale-105" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-10 border-t border-slate-300/70"></div>
+        <div class="flex flex-col items-center justify-between gap-4 py-6 md:flex-row">
+          <p class="text-xs text-slate-600 text-center md:text-left">
+            © 2025 <span class="font-medium text-slate-800">FairView</span>. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================= MODAL ============================= -->
+  <div id="bookModal" class="hidden fixed inset-0 z-[100]">
+    <div id="bookModalOverlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+    <div class="relative mx-auto w-full max-w-3xl mt-20 px-4">
+      <div class="rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+          <h3 id="bmTitleTop" class="text-lg font-bold">Título del libro</h3>
+          <button id="bookModalClose" aria-label="Cerrar" class="p-2 rounded-full hover:bg-gray-100">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 max-h-[78svh] overflow-y-auto md:max-h-none md:overflow-visible">
+          <!-- Imagen -->
+          <div class="flex items-center justify-center">
+            <img id="bmImage" src="" alt="" class="max-h-80 w-auto object-contain rounded-lg">
+          </div>
+
+          <!-- Datos -->
+          <div class="flex flex-col gap-3">
+            <h4 id="bmTitle" class="text-xl font-extrabold"></h4>
+            <p class="text-sm text-gray-600">Autor: <span id="bmAuthor" class="font-medium text-ink"></span></p>
+
+            <div class="flex items-center gap-2">
+              <div id="bmStars" class="flex items-center gap-1 text-lime-500"></div>
+              <span id="bmRatingText" class="text-xs text-gray-500"></span>
+            </div>
+
+            <p id="bmDesc" class="text-sm text-gray-700 leading-relaxed"></p>
+
+            <!-- Ficha + botones -->
+            <div class="mt-2 grid grid-cols-2 gap-3 text-sm">
+              <div class="bg-gray-50 rounded-lg p-3">
+                <p class="text-gray-500">ISBN</p>
+                <p id="bmISBN" class="font-semibold text-ink"></p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-3">
+                <p class="text-gray-500">Año</p>
+                <p id="bmYear" class="font-semibold text-ink"></p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-3">
+                <p class="text-gray-500">Páginas</p>
+                <p id="bmPages" class="font-semibold text-ink"></p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-3">
+                <p class="text-gray-500">Género</p>
+                <p id="bmGenero" class="font-semibold text-ink"></p>
+              </div>
+
+              <div class="col-span-2 flex flex-wrap items-center gap-3 mt-2">
+                <button class="btn-reservar inline-flex items-center gap-2 px-4 h-11 rounded-lg bg-indigo-900 text-white hover:opacity-90 transition">
+                  <i class="fa-solid fa-book-open"></i>
+                  Reservar
+                </button>
+                <button class="inline-flex items-center gap-2 px-4 h-11 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+                  <i class="fa-regular fa-heart"></i>
+                  Añadir a lista
+                </button>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /Body -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

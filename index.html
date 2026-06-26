@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fairview Bookshop</title>
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- Fuente Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+   <link rel="icon" type="image/png" href="img/logo1.png">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Poppins', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Arial'],
+        },
+        colors: {
+          cream: '#efe8dd',
+          cream2: '#f5efe6',
+          ink: '#1c1c1c',
+          muted: '#6b6b6b',
+          stroke: '#e4dbcf',
+          primary: '#14124b',
+          primary600: '#0f0e3a',
+        }
+      }
+    }
+  }
+</script>
+
+
+<body class="min-h-screen m-0 bg-cream text-ink antialiased">
+  <div id="main" class="min-h-screen flex flex-col-reverse md:flex-row transition-all duration-500">
+
+    <!-- Panel de formulario -->
+    <section class="flex-1 flex items-center justify-center bg-cream px-6 md:px-8 py-10">
+      <!-- Sign In -->
+      <form id="formSignIn" class="w-full max-w-[420px] hidden" autocomplete="on">
+        <div class="flex flex-col items-start mb-8">
+          <img src="img/logo.png" alt="Fairview Bookshop" class="w-24 h-auto object-contain mb-3">
+          <h1 class="text-[30px] font-semibold tracking-tight">Iniciar sesión</h1>
+        </div>
+
+        <input type="text" name="fullName" placeholder="Nombre completo" required autocomplete="name" aria-label="Nombre" class="w-full h-12 px-3 mt-3 rounded-lg border border-stroke bg-white outline-none transition
+                      focus:border-primary focus:ring-4 focus:ring-[#8aa0ff] focus:ring-opacity-20">
+        <input type="email" name="email" placeholder="Email" required autocomplete="email" aria-label="Email" class="w-full h-12 px-3 mt-3 rounded-lg border border-stroke bg-white outline-none transition
+                      focus:border-primary focus:ring-4 focus:ring-[#8aa0ff] focus:ring-opacity-20">
+        <input type="password" name="password" placeholder="Password" required autocomplete="current-password"
+          aria-label="Password" class="w-full h-12 px-3 mt-3 rounded-lg border border-stroke bg-white outline-none transition
+                      focus:border-primary focus:ring-4 focus:ring-[#8aa0ff] focus:ring-opacity-20">
+
+        <p id="loginError" class="text-[#be123c] text-[13px] mt-1 min-h-[18px]"></p>
+
+        <button type="submit" class="w-full h-[50px] mt-4 rounded-xl bg-primary text-white font-bold transition
+                       hover:bg-primary600 active:translate-y-px">
+          Iniciar sesión
+        </button>
+
+        <div class="mt-2">
+          <a href="forgot1.html" class="text-primary hover:underline">¿Olvidaste la contraseña?</a>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-2 my-4 text-muted text-[13px]">
+            <div class="h-px bg-stroke flex-1"></div>
+            <span>o</span>
+            <div class="h-px bg-stroke flex-1"></div>
+          </div>
+
+          <!-- Social -->
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" class="h-[46px] rounded-lg border border-stroke bg-white font-semibold
+                           flex items-center justify-center gap-2">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google"
+                class="w-5 h-5">
+              <span>Google</span>
+            </button>
+            <button type="button" class="h-[46px] rounded-lg border border-stroke bg-white font-semibold
+                           flex items-center justify-center gap-2">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"
+                alt="Facebook" class="w-5 h-5">
+              <span>Facebook</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="mt-4 text-center text-muted">
+          ¿No tienes una cuenta?
+          <a href="#" id="goToSignUp" class="text-primary font-bold hover:underline">Crear cuenta</a>
+        </p>
+      </form>
+
+      <!-- Sign Up -->
+      <form id="formSignUp" class="w-full max-w-[420px] hidden" autocomplete="on">
+        <div class="flex flex-col items-start mb-8">
+          <img src="img/logo.png" alt="Fairview Bookshop" class="w-24 h-auto object-contain mb-3">
+          <h1 class="text-[30px] font-semibold tracking-tight">Regístrate</h1>
+        </div>
+
+
+        <input type="text" id="signupName" name="username" placeholder="Username" required minlength="3" maxlength="30"
+          autocomplete="username" aria-label="Username" class="w-full h-12 px-3 mt-3 rounded-lg border border-stroke bg-white outline-none transition
+                      focus:border-primary focus:ring-4 focus:ring-[#8aa0ff] focus:ring-opacity-20">
+
+        <input type="email" id="signupEmail" name="email" placeholder="Gmail" required inputmode="email"
+          autocomplete="email" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+          title="Usa un correo @gmail.com válido, por ejemplo: usuario@gmail.com" aria-label="Gmail" class="w-full h-12 px-3 mt-3 rounded-lg border border-stroke bg-white outline-none transition
+                      focus:border-primary focus:ring-4 focus:ring-[#8aa0ff] focus:ring-opacity-20">
+
+        <input type="password" id="signupPassword" name="password" placeholder="Password" required minlength="8"
+          autocomplete="new-password" aria-label="Password" class="w-full h-12 px-3 mt-3 rounded-lg border border-stroke bg-white outline-none transition
+                      focus:border-primary focus:ring-4 focus:ring-[#8aa0ff] focus:ring-opacity-20">
+
+        <button type="submit" class="w-full h-[50px] mt-4 rounded-xl bg-primary text-white font-bold transition
+                       hover:bg-primary600 active:translate-y-px">
+          Crear cuenta
+        </button>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-2 my-4 text-muted text-[13px]">
+          <div class="h-px bg-stroke flex-1"></div>
+          <span>o</span>
+          <div class="h-px bg-stroke flex-1"></div>
+        </div>
+
+        <!-- Social -->
+        <div class="grid grid-cols-2 gap-3">
+          <button type="button" class="h-[46px] rounded-lg border border-stroke bg-white font-semibold
+                         flex items-center justify-center gap-2">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google"
+              class="w-5 h-5">
+            <span>Google</span>
+          </button>
+
+          <button type="button" class="h-[46px] rounded-lg border border-stroke bg-white font-semibold
+                         flex items-center justify-center gap-2">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook"
+              class="w-5 h-5">
+            <span>Facebook</span>
+          </button>
+        </div>
+
+        <p class="mt-4 text-center text-muted">
+          ¿Ya tenés cuenta?
+          <a href="#" id="goToSignIn" class="text-primary font-bold hover:underline">Iniciar sesión</a>
+        </p>
+      </form>
+    </section>
+
+    <!-- Panel de imagen -->
+    <section class="flex-1 relative bg-cream2 h-[38vh] md:h-auto">
+      <img src="img/login2.png" alt="Imagen decorativa de biblioteca"
+        class="absolute inset-0 w-full h-full object-cover">
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

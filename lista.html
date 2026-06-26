@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Mi lista • FairView</title>
+
+  <!-- Fuente Poppins desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- TailwindCSS vía CDN. Config extiende fuentes y colores usados en el sitio. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'ui-sans-serif', 'system-ui'],
+          },
+          colors: {
+            ink: '#1c1c1c',
+            stroke: '#e4dbcf',
+          }
+        }
+      }
+    }
+  </script>
+   <link rel="icon" type="image/png" href="img/logo1.png">
+
+  <!-- Iconos de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="font-sans text-ink bg-white">
+  <!-- ============================= NAVBAR FIJA ============================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+    <nav class="bg-[#F4F0E8] w-full h-16 px-2 md:px-4 flex items-center justify-between">
+      <!-- Lado izquierdo: logo y buscador -->
+      <div class="flex items-start gap-3 min-w-0">
+        <a href="home.html" class="shrink-0 block">
+          <img src="img/logo.png" alt="Fairview Bookshop" class="h-12 w-auto mt-[2px]">
+        </a>
+
+        <!-- Buscador visible desde sm hacia arriba -->
+        <div class="relative hidden sm:block">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input type="text" placeholder="Autor, libro o ISBN" aria-label="Buscar"
+            class="w-64 lg:w-72 pl-10 pr-4 h-10 rounded-full bg-gray-50 border border-gray-200 outline-none
+                   placeholder:text-gray-400 focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-black/5 transition" />
+        </div>
+      </div>
+
+      <!-- ICONOS MOBILE -->
+      <div class="flex items-center gap-3 md:hidden ml-auto">
+        <button id="notifBtnMobile"
+          class="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+          <i class="fa-regular fa-bell text-[20px]"></i>
+          <span id="notifBadgeMobile"
+            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+        </button>
+
+        <a href="profile.html"
+          class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
+          aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+      </div>
+
+      <!-- Botón hamburguesa solo en mobile -->
+      <button id="menuBtn" aria-label="Abrir menú" class="md:hidden text-2xl p-2 rounded-md hover:bg-gray-100">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Menú principal: se oculta en mobile por defecto -->
+      <ul id="menuList" class="hidden md:flex items-center justify-center gap-4 md:gap-10
+               absolute md:static top-16 left-0 right-0
+               bg-white md:bg-transparent border-t md:border-none shadow md:shadow-none
+               py-2 md:py-0 flex-col md:flex-row text-center md:text-left">
+        <!-- Item simple -->
+        <li>
+          <a href="home.html" class="group relative px-1 py-1 font-semibold">
+            Inicio
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+
+        <!-- Dropdown de categorías en desktop y acordeón en mobile -->
+        <li
+          class="relative group before:content-[''] before:absolute before:left-0 before:right-0 md:before:top-full md:before:h-2 before:h-0">
+          <!-- Trigger desktop -->
+          <a href="#" class="hidden md:inline-flex items-center gap-1 px-1 py-1 font-semibold relative">
+            Categorías
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+
+          <!-- Dropdown desktop -->
+          <div class="hidden md:block absolute left-0 top-full mt-2 w-56 rounded-xl border border-gray-100 bg-white shadow-lg z-50
+                       opacity-0 pointer-events-none translate-y-1 transition-all duration-150
+                       group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0">
+            <ul class="py-2">
+              <li><a href="/categorias/Mates.html" class="block px-4 py-2 hover:bg-gray-50">Estadistica y Matematicas</a></li>
+              <li><a href="/categorias/tec.html" class="block px-4 py-2 hover:bg-gray-50">Ingenieria y tecnologia</a></li>
+              <li><a href="/categorias/derecho.html" class="block px-4 py-2 hover:bg-gray-50">Derecho y ciencias Politicas</a></li>
+              <li><a href="/categorias/ciencia.html" class="block px-4 py-2 hover:bg-gray-50">Ciencia</a></li>
+              <li><a href="/categorias/psicologia.html" class="block px-4 py-2 hover:bg-gray-50">Psicologia y Educacion</a></li>
+            </ul>
+          </div>
+
+          <!-- Trigger mobile -->
+          <button id="catBtn"
+            class="md:hidden w-full text-center px-4 py-2 font-semibold inline-flex items-center justify-between"
+            aria-expanded="false" aria-controls="catSub" type="button">
+            <span>Categorías</span>
+            <i id="catIcon" class="fa-solid fa-angle-down text-sm transition-transform duration-200"></i>
+          </button>
+
+          <!-- Submenú mobile -->
+          <ul id="catSub" class="md:hidden hidden flex-col gap-1 px-2 pb-2 pl-6 text-sm font-medium">
+            <li><a href="/categorias/Mates.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Estadistica y Matematicas</a></li>
+            <li><a href="/categorias/tec.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ingenieria y tecnologia</a></li>
+            <li><a href="/categorias/derecho.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Derecho y ciencias Politicas</a></li>
+            <li><a href="/categorias/ciencia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ciencia</a></li>
+            <li><a href="/categorias/psicologia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Psicologia y Educacion</a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Otros enlaces -->
+        <li>
+          <a href="reservas.html" class="group relative px-1 py-1 font-semibold">
+            Reservas
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="/lista.html" class="group relative px-1 py-1 font-semibold">
+            Mi lista
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="faqs.html" class="group relative px-1 py-1 font-semibold">
+           FAQs
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Iconos a la derecha (solo desktop) -->
+       <div class="hidden md:flex items-center gap-3 ml-3">
+        <a id="notifBtn" class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition relative cursor-pointer">
+          <i class="fa-regular fa-bell text-[20px]"></i>
+          <span id="notifBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+        </a>
+
+        <!-- Popup -->
+        <div id="notifPopup"
+          class="hidden absolute right-12 mt-36 w-64 bg-white shadow-xl rounded-xl border border-gray-100 p-4 text-sm z-50">
+          <p class="font-semibold mb-2">Notificaciones</p>
+          <div id="notifContent" class="space-y-2 text-gray-700"></div>
+        </div>
+
+        <a href="profile.html"
+          class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition"
+          aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="h-16"></div>
+
+  <!-- ============================= CONTENIDO ============================= -->
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-extrabold text-center mb-2">Mi Lista</h1>
+    <p class="text-center text-gray-500 mb-8">Los libros que guardaste para reservar más tarde.</p>
+
+    <div id="listaContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    <div id="listaEmpty" class="hidden text-center py-16 text-gray-500">
+      <i class="fa-regular fa-heart text-4xl mb-4"></i><br>
+      Tu lista está vacía. Toca el corazón de un libro para guardarlo aquí.
+      <div class="mt-5">
+        <a href="home.html" class="bg-indigo-900 text-white px-4 py-2 rounded-lg hover:opacity-90">Explorar libros</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const cont = document.getElementById("listaContainer");
+    const vacio = document.getElementById("listaEmpty");
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    // Dibuja las tarjetas de la lista de deseados
+    function render() {
+      cont.innerHTML = "";
+
+      if (!favoritos.length) {
+        vacio.classList.remove("hidden");
+        return;
+      }
+      vacio.classList.add("hidden");
+
+      favoritos.forEach((b, i) => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 flex flex-col";
+        card.innerHTML = `
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-gray-50">
+            <img src="${b.img}" alt="${b.title}" class="h-full w-full object-contain p-2">
+          </div>
+          <h3 class="mt-4 font-semibold">${b.title}</h3>
+          <p class="text-sm text-gray-500">${b.author || ""}</p>
+          ${b.isbn ? `<p class="text-xs text-gray-400 mt-1">ISBN: ${b.isbn}</p>` : ""}
+          <div class="mt-4 flex gap-2">
+            <button data-i="${i}" class="reservar-fav flex-1 bg-indigo-900 text-white text-sm px-3 py-2 rounded-lg hover:opacity-90">Reservar</button>
+            <button data-i="${i}" aria-label="Quitar" class="quitar-fav px-3 py-2 rounded-lg border border-gray-200 text-red-600 text-sm hover:bg-gray-50">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+        cont.appendChild(card);
+      });
+    }
+
+    render();
+
+    // Aviso flotante
+    function toast(msg) {
+      const t = document.createElement("div");
+      t.className = "fixed bottom-6 right-6 bg-indigo-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-[9999]";
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2500);
+    }
+
+    cont.addEventListener("click", e => {
+      const quitar = e.target.closest(".quitar-fav");
+      const reservar = e.target.closest(".reservar-fav");
+
+      // Quitar de la lista
+      if (quitar) {
+        const tituloQuitado = favoritos[quitar.dataset.i]?.title;
+        favoritos.splice(quitar.dataset.i, 1);
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        render();
+        window.FairviewCloud?.removeFavorito(tituloQuitado);
+        return;
+      }
+
+      // Reservar directamente desde la lista (con los mismos límites del sitio)
+      if (reservar) {
+        const b = favoritos[reservar.dataset.i];
+        let reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+
+        if (reservas.length >= 6) { alert("⚠️ No puedes reservar más de 6 libros a la vez."); return; }
+        if (reservas.some(r => r.title === b.title)) { alert("⚠️ Ya reservaste este libro."); return; }
+
+        const date = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+        const entrega = new Date();
+        entrega.setDate(entrega.getDate() + 30);
+
+        const nuevaReserva = {
+          title: b.title, author: b.author, img: b.img, isbn: b.isbn,
+          date, entrega: entrega.toLocaleDateString('es-ES'), status: "Activa", category: "lista"
+        };
+        reservas.push(nuevaReserva);
+        localStorage.setItem("reservas", JSON.stringify(reservas));
+        window.updateNotifications?.();
+        window.FairviewCloud?.addReserva(nuevaReserva);
+        toast(`✅ "${b.title}" reservado.`);
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+</body>
+</html>

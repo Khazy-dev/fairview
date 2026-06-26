@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Inicio • FairView</title>
+
+  <!-- Fuente Poppins desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- TailwindCSS vía CDN. Config extiende fuentes y colores usados en el sitio. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'ui-sans-serif', 'system-ui'],
+          },
+          colors: {
+            ink: '#1c1c1c',
+            stroke: '#e4dbcf',
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="icon" type="image/png" href="img/logo1.png">
+  <!-- Iconos de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="font-sans text-ink bg-white">
+  <!-- ============================= NAVBAR FIJA ============================= -->
+  <!--
+    Objetivo: navegación superior fija y responsiva.
+    Claves:
+    - header fijo con blur para que se vea sobre el contenido.
+    - Menú desktop como fila. Menú mobile se abre como lista vertical.
+  -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+    <nav class="bg-[#F4F0E8] w-full h-16 px-2 md:px-4 flex items-center justify-between">
+      <!-- Lado izquierdo: logo y buscador -->
+      <div class="flex items-start gap-3 min-w-0">
+        <a href="home.html" class="shrink-0 block">
+          <!-- Reemplazar la ruta del logo si es necesario -->
+          <img src="img/logo.png" alt="Fairview Bookshop" class="h-12 w-auto mt-[2px]">
+        </a>
+
+        <!-- Buscador visible desde sm hacia arriba -->
+        <div class="relative hidden sm:block">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input type="text" placeholder="Autor, libro o ISBN" aria-label="Buscar"
+            class="w-64 lg:w-72 pl-10 pr-4 h-10 rounded-full bg-gray-50 border border-gray-200 outline-none
+                   placeholder:text-gray-400 focus:bg-white focus:border-gray-300 focus:ring-4 focus:ring-black/5 transition" />
+        </div>
+      </div>
+
+      <!--  =================================== MOBILE =======================================-->
+
+        <!-- Iconos (solo mobile) -->
+  <div class="flex items-center gap-3 md:hidden ml-auto">
+    <!-- Notificaciones -->
+    <button id="notifBtnMobile"
+      class="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+      <i class="fa-regular fa-bell text-[20px]"></i>
+      <span id="notifBadgeMobile"
+        class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+    </button>
+
+    <!-- Perfil -->
+    <a href="profile.html"
+      class="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
+      aria-label="Cuenta">
+      <i class="fa-regular fa-user text-[20px]"></i>
+    </a>
+
+       <!-- Menú hamburguesa -->
+    <button id="menuBtn" aria-label="Abrir menú" class="text-2xl p-2 rounded-md hover:bg-gray-100">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+      
+
+      <!-- Menú principal: se oculta en mobile por defecto -->
+      <ul id="menuList" class="hidden md:flex items-center justify-center gap-4 md:gap-10
+               absolute md:static top-16 left-0 right-0
+               bg-white md:bg-transparent border-t md:border-none shadow md:shadow-none
+               py-2 md:py-0 flex-col md:flex-row text-center md:text-left">
+        <!-- Item simple -->
+        <li>
+          <a href="home.html" class="group relative px-1 py-1 font-semibold">
+            Inicio
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+
+        <!-- Dropdown de categorías en desktop y acordeón en mobile -->
+        <li
+          class="relative group before:content-[''] before:absolute before:left-0 before:right-0 md:before:top-full md:before:h-2 before:h-0">
+          <!-- Trigger desktop -->
+          <a href="#" class="hidden md:inline-flex items-center gap-1 px-1 py-1 font-semibold relative">
+            Categorías
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+
+          <!-- Dropdown desktop -->
+          <div class="hidden md:block absolute left-0 top-full mt-2 w-56 rounded-xl border border-gray-100 bg-white shadow-lg z-50
+                       opacity-0 pointer-events-none translate-y-1 transition-all duration-150
+                       group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0">
+            <ul class="py-2">
+              <li><a href="/categorias/Mates.html" class="block px-4 py-2 hover:bg-gray-50">Estadistica y Matematicas</a></li>
+              <li><a href="/categorias/tec.html" class="block px-4 py-2 hover:bg-gray-50">Ingenieria y tecnologia</a></li>
+              <li><a href="/categorias/derecho.html" class="block px-4 py-2 hover:bg-gray-50">Derecho y ciencias Politicas</a></li>
+              <li><a href="/categorias/ciencia.html" class="block px-4 py-2 hover:bg-gray-50">Ciencia</a></li>
+              <li><a href="/categorias/psicologia.html" class="block px-4 py-2 hover:bg-gray-50">Psicologia y Educacion</a></li>
+            </ul>
+          </div>
+
+          <!-- Trigger mobile -->
+          <button id="catBtn"
+            class="md:hidden w-full text-center px-4 py-2 font-semibold inline-flex items-center justify-between"
+            aria-expanded="false" aria-controls="catSub" type="button">
+            <span>Categorías</span>
+            <i id="catIcon" class="fa-solid fa-angle-down text-sm transition-transform duration-200"></i>
+          </button>
+
+          <!-- Submenú mobile -->
+          <ul id="catSub" class="md:hidden hidden flex-col gap-1 px-2 pb-2 pl-6 text-sm font-medium">
+            <li><a href="/categorias/Mates.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Estadistica y Matematicas</a></li>
+            <li><a href="/categorias/tec.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ingenieria y tecnologia</a></li>
+            <li><a href="/categorias/derecho.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Derecho y ciencias Politicas</a></li>
+            <li><a href="/categorias/ciencia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Ciencia</a></li>
+            <li><a href="/categorias/psicologia.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">Psicologia y Educacion</a>
+            <li><a href="/faqs.html" class="block px-3 py-2 rounded-lg hover:bg-gray-50">FAQs</a>
+            </li>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Otros enlaces -->
+       
+        <li>
+          <a href="/reservas.html" class="group relative px-1 py-1 font-semibold">
+            Reservas
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="/lista.html" class="group relative px-1 py-1 font-semibold">
+            Mi lista
+            <span class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+        <li>
+          <a href="faqs.html" class="group relative px-1 py-1 font-semibold">
+            FAQs
+            <span
+              class="pointer-events-none absolute left-0 -bottom-1 h-[2px] w-full scale-x-0 bg-black origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Iconos a la derecha (solo desktop) -->
+
+       <div class="hidden md:flex items-center gap-3 ml-3">
+<a id="notifBtn" class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition relative cursor-pointer">
+  <i class="fa-regular fa-bell text-[20px]"></i>
+  <span id="notifBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full hidden"></span>
+</a>
+
+<!-- Popup -->
+<div id="notifPopup"
+  class="hidden absolute right-12 mt-36 w-64 bg-white shadow-xl rounded-xl border border-gray-100 p-4 text-sm z-50">
+  <p class="font-semibold mb-2">Notificaciones</p>
+  <div id="notifContent" class="space-y-2 text-gray-700"></div>
+</div>
+
+      
+       
+        <a href="profile.html"
+          class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 transition"
+          aria-label="Cuenta">
+          <i class="fa-regular fa-user text-[20px]"></i>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Espaciador para que el contenido no quede debajo de la navbar fija -->
+  <div class="h-16"></div>
+
+  <!-- ============================= CONTENIDO PRINCIPAL ============================= -->
+  <main class="max-w-[1400px] mx-auto px-3 md:px-6 py-12">
+    <!-- ============================= HERO ============================= -->
+    <!-- Banner de bienvenida con imagen y copy corto -->
+   <!-- ============================= HERO 3D (Desktop + Mobile) ============================= -->
+<section id="hero3d" class="rounded-2xl relative w-full h-[80vh] overflow-hidden bg-[#0e0d0d] flex flex-col items-center justify-center mt-6">
+
+  <!-- Canvas 3D -->
+  <div id="bookScene" class="absolute inset-0"></div>
+
+  <!-- Texto superpuesto -->
+  <div class="relative z-10 text-center text-white px-6">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-3">Explora tu siguiente historia</h1>
+    <p class="max-w-xl mx-auto text-gray-300 text-lg mb-6">
+      Descubre, reserva y vive la experiencia de leer de forma interactiva.
+    </p>
+  </div>
+</section>
+
+<!-- ========== LIBRERÍAS NECESARIAS ========== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+  // Activar Three.js en todas las pantallas (desktop y mobile)
+  let scene, camera, renderer, book;
+  const container = document.getElementById('bookScene');
+
+  init();
+  animate();
+
+  function init() {
+    scene = new THREE.Scene();
+
+    // Cámara
+    camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1, 3);
+
+    // Renderizador
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Luces suaves
+    const ambient = new THREE.AmbientLight(0xffffff, 1.2);
+    const point = new THREE.PointLight(0xffffff, 1);
+    point.position.set(2, 3, 3);
+    scene.add(ambient, point);
+
+    // Cargar modelo
+   const loader = new THREE.GLTFLoader();
+loader.load(
+  'models/tome_v1/scene.gltf',
+  gltf => {
+    book = gltf.scene;
+
+    // ajuste visual: tamaño, posición y orientación
+    book.scale.set(1.1, 1.1, 1.1);
+    book.rotation.y = Math.PI / 4;
+    book.position.set(0, 7, -1); //  (más negativo = más abajo)
+    scene.add(book);
+  },
+  undefined,
+  err => console.error('Error cargando modelo:', err)
+);
+
+// camara más centrada y ligeramente más alta
+camera.position.set(0, 0.3, 3);
+
+
+    // Responsividad
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  }
+
+  // Animación base + flotación
+  let floatOffset = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    if (book) {
+      book.rotation.y += 0.004;
+      floatOffset += 0.02;
+      book.position.y = Math.sin(floatOffset) * 0.2; // efecto de levitación
+    }
+    renderer.render(scene, camera);
+  }
+
+  // Animación de scroll
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.create({
+    trigger: "#hero3d",
+    start: "top top",
+    end: "bottom top",
+    scrub: true,
+    onUpdate: self => {
+      if (book) book.rotation.x = self.progress * Math.PI * 0.4;
+    }
+  });
+</script>
+
+
+    <!-- ============================= POPULARES ============================= -->
+    <!--
+      Sección con carrusel mobile y grilla desktop.
+      Importante: cada <article> tiene class="book-card" y data-* para la modal.
+    -->
+    <section class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 mt-10">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-extrabold text-[#443c67]">Populares</h3>
+      </div>
+
+      <div class="mt-6">
+        <!-- Carrusel mobile -->
+        <div class="md:hidden overflow-x-auto flex gap-4 snap-x snap-mandatory pb-2">
+          <!-- Libro 1 -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Termodinámica" data-author="Yunus A. Çengel; Michael A. Boles" data-image="/libros/termodi.png"
+            data-rating="4" data-isbn="9786071512819" data-year="2013" data-pages="997" data-genero="Termodinámica"
+            data-description="Este libro ofrece una introducción clara y accesible a los principios de la termodinámica aplicada a la ingeniería.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/termodi.png" alt="Termodinámica" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Termodinámica</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Yunus A. Çengel; Michael A. Boles</p>
+          </article>
+
+          <!-- Libro 2 -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Álgebra Lineal" data-author="David C. Lay" data-image="/libros/algebra.jpg"
+            data-rating="4" data-isbn="9789702609063" data-year="2007" data-pages="584" data-genero="Matemáticas"
+            data-description="el libro proporciona un apoyo sustancial tanto para la enseñanza como para el uso de la tecnología en el curso. el texto presenta una introducción elemental moderna al álgebra lineal y una amplia selección de interesantes aplicaciones.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/algebra.jpg" alt="Álgebra Lineal" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Álgebra Lineal</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">David C. Lay</p>
+          </article>
+
+          <!-- Libro 3 ....... -->
+          <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Ciencia Politica : un manual" data-author="Josep M Valles,Salvad Marti Puig" data-image="/libros/manual.webp"
+            data-rating="4" data-isbn="9788434432758" data-year="2012" data-pages="464" data-genero="Ciencia Politica"
+            data-description="Manual introductorio sobre política, actores, instituciones y sistemas democráticos, actualizado con globalización y ciencias politicas sociales.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/manual.webp" alt="Ciencia Politica : un manual" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Ciencia Politica : un manual</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Josep M Valles,Salvad Marti Puig</p>
+          </article>
+
+          <!-- Libro 4 -->
+           <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Una breve historia del tiempo" data-author="Stephen Hawking" data-image="/libros/libro1C.jpg"
+            data-rating="4" data-isbn="9780553109535" data-year="2013" data-pages="256" data-genero="Cosmología"
+            data-description="Explora el origen, desarrollo y destino del universo, desde el Big Bang hasta los agujeros negros.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/libro1C.jpg" alt="Una breve historia del tiempo" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Una breve historia del tiempo</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Stephen Hawking</p>
+          </article>
+        </div>
+
+        <!-- Grilla desktop -->
+        <div class="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-10">
+           <!-- Libro 1 -->
+          <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Termodinámica" data-author="Yunus A. Çengel; Michael A. Boles" data-image="/libros/termodi.png"
+            data-rating="5" data-isbn="9786071512819" data-year="2013" data-pages="997" data-genero="Termodinámica"
+            data-description="Este libro ofrece una introducción clara y accesible a los principios de la termodinámica aplicada a la ingeniería.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/termodi.png" alt="Termodinámica" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Termodinámica</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Yunus A. Çengel; Michael A. Boles</p>
+          </article>
+
+          <!-- Libro 2 -->
+           <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Álgebra Lineal" data-author="David C. Lay" data-image="/libros/algebra.jpg"
+            data-rating="5" data-isbn="9789702609063" data-year="2007" data-pages="584" data-genero="Matemáticas"
+            data-description="el libro proporciona un apoyo sustancial tanto para la enseñanza como para el uso de la tecnología en el curso. el texto presenta una introducción elemental moderna al álgebra lineal y una amplia selección de interesantes aplicaciones.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/algebra.jpg" alt="Álgebra Lineal" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Álgebra Lineal</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">David C. Lay</p>
+          </article>
+
+          <!-- Libro 3 -->
+           <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Ciencia Politica : un manual" data-author="Josep M Valles,Salvad Marti Puig" data-image="/libros/manual.webp"
+            data-rating="5" data-isbn="9788434432758" data-year="2012" data-pages="464" data-genero="Ciencia Politica : un manual"
+            data-description="Este libro ofrece una introducción clara y accesible a los principios de la Ciencia Politica : un manual aplicada a la Ciencias politicas.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/manual.webp" alt="Ciencia Politica : un manual" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Ciencia Politica : un manual</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Josep M Valles,Salvad Marti Puig</p>
+          </article>
+
+          <!-- Libro 4 -->
+ <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Una breve historia del tiempo" data-author="Stephen Hawking" data-image="/libros/libro1C.jpg"
+            data-rating="5" data-isbn="9780553109535" data-year="2013" data-pages="256" data-genero="Cosmología"
+            data-description="Explora el origen, desarrollo y destino del universo, desde el Big Bang hasta los agujeros negros.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/libro1C.jpg" alt="Una breve historia del tiempo" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Una breve historia del tiempo</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Stephen Hawking</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= MÁS LEÍDOS ============================= -->
+    <section class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 mt-12">
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-extrabold text-[#443c67]">Más leídos</h3>
+      </div>
+
+      <!-- Carrusel mobile -->
+      <div class="md:hidden overflow-x-auto flex gap-4 snap-x snap-mandatory mt-6 pb-2">
+        <!-- Libro 1 -->
+         <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Arquitectura de computadoras" data-author="Andrew S. Tanenbaum (c/ D. Wetherall)" data-image="/libros/redes.webp"
+          data-rating="4" data-isbn="9786073208178" data-year="2012" data-pages="672" data-genero="Redes"
+          data-description="Este libro ofrece una visión global de las redes de computadoras: desde el hardware y los medios de transmisión hasta los protocolos, la arquitectura de red, redes inalámbricas, VoIP y redes de igual a igual.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/redes.webp" alt="Arquitectura de computadoras" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Arquitectura de computadoras</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Andrew S. Tanenbaum (c/ D. Wetherall)</p>
+        </article>
+
+        <!-- Libro 2 -->
+         <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Calculo" data-author="James Stewart" data-image="/libros/calculo.jpg" data-rating="4"
+            data-isbn="100538498714" data-year="2004" data-pages="648" data-genero="Matematicas"
+            data-description="Es uno de los textos más utilizados en el mundo para cursos de cálculo diferencial e integral, tanto a nivel universitario como en bachilleratos avanzados. Está diseñado para estudiantes de ciencias, ingeniería y matemáticas, aunque también lo usan en otras disciplinas técnicas.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/calculo.jpg" alt="Calculo" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Calculo</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">James Stewart</p>
+          </article>
+
+        <!-- Libro 3 -->
+         <article
+            class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="El gen egoísta" data-author="Matthew N. O. Sadiku" data-image="/libros/libro2C.webp" data-rating="4"
+            data-isbn="9786073240994" data-year="2017" data-pages="736" data-genero="Biología evolutiva"
+            data-description="Presenta la evolución desde la perspectiva del gen “egoísta”, argumentando que los organismos son vehículos para la reproducción genética.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/libro2C.webp" alt="El gen egoísta" class="h-full w-full object-contain p-1.5">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">El gen egoísta</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Richard Dawkins</p>
+          </article>
+
+        <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Muerte por agujeros negros" data-author="Neil deGrasse Tyson" data-image="/libros/libro8C.jpg"
+          data-rating="4" data-isbn="9786077472964" data-year="2012" data-pages="520" data-genero="Divulgación científica"
+          data-description="Recopila más de cuarenta ensayos donde Tyson explora preguntas sobre el universo, los agujeros negros, los orígenes cósmicos, y lo que implica para nosotros comprender el cosmos. ">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/libro8C.jpg" alt="Muerte por agujeros negros" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Muerte por agujeros negros</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Neil deGrasse Tyson</p>
+        </article>
+      </div>
+
+      <!-- Grilla desktop -->
+      <div class="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-10 mt-6">
+        <!-- Libro 1 -->
+<article
+          class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Arquitectura de computadoras" data-author="Andrew S. Tanenbaum (c/ D. Wetherall)" data-image="/libros/redes.webp"
+          data-rating="4" data-isbn="9786073208178" data-year="2012" data-pages="672" data-genero="Redes"
+          data-description="Testimonio y visión de la logoterapia sobre el propósito de vida a partir de la experiencia en campos de concentración.">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/redes.webp" alt="Arquitectura de computadoras" class="h-full w-full object-contain p-2">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Arquitectura de computadoras</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500">
+            <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Andrew S. Tanenbaum (c/ D. Wetherall)</p>
+        </article>
+
+        <!-- Libro 2 -->
+      <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="Calculo" data-author="James Stewart" data-image="/libros/calculo.jpg" data-rating="4"
+            data-isbn="100538498714" data-year="2004" data-pages="648" data-genero="Matematicas"
+            data-description="Es uno de los textos más utilizados en el mundo para cursos de cálculo diferencial e integral, tanto a nivel universitario como en bachilleratos avanzados. Está diseñado para estudiantes de ciencias, ingeniería y matemáticas, aunque también lo usan en otras disciplinas técnicas.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/calculo.jpg" alt="Calculo" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">Calculo</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">James Stewart</p>
+          </article>
+
+
+        <!-- Libro 3 -->
+        <article
+            class="book-card bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+            data-title="El gen egoísta" data-author="Richard Dawkins" data-image="/libros/libro2C.webp" data-rating="4"
+            data-isbn="9786073240994" data-year="2017" data-pages="736" data-genero="Biología evolutiva"
+            data-description="Presenta la evolución desde la perspectiva del gen “egoísta”, argumentando que los organismos son vehículos para la reproducción genética.">
+            <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+              <img src="/libros/libro2C.webp" alt="El gen egoísta" class="h-full w-full object-contain p-2">
+            </div>
+            <h4 class="mt-4 text-lg font-semibold">El gen egoísta</h4>
+            <div class="mt-2 flex items-center gap-1 text-lime-500">
+              <i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-solid fa-star text-sm"></i><i class="fa-regular fa-star text-sm text-gray-300"></i>
+            </div>
+            <p class="mt-3 text-sm text-gray-500">Richard Dawkins</p>
+          </article>
+
+        <!-- Libro 4 --> <!--No se muestra-->
+       <article
+          class="book-card snap-start shrink-0 w-[260px] bg-white rounded-2xl shadow-sm ring-1 ring-black/5 hover:shadow-md transition p-5 cursor-pointer"
+          data-title="Muerte por agujeros negros" data-author="Neil deGrasse Tyson" data-image="/libros/libro8C.jpg"
+          data-rating="4" data-isbn="9786077472964" data-year="2012" data-pages="520" data-genero="Divulgación científica"
+          data-description="Recopila más de cuarenta ensayos donde Tyson explora preguntas sobre el universo, los agujeros negros, los orígenes cósmicos, y lo que implica para nosotros comprender el cosmos. ">
+          <div class="aspect-[3/4] w-full overflow-hidden rounded-xl bg-white">
+            <img src="/libros/libro8C.jpg" alt="Muerte por agujeros negros" class="h-full w-full object-contain p-1.5">
+          </div>
+          <h4 class="mt-4 text-lg font-semibold">Muerte por agujeros negros</h4>
+          <div class="mt-2 flex items-center gap-1 text-lime-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-300"></i>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Neil deGrasse Tyson</p>
+        </article>
+      </div>
+    </section>
+
+
+     <style>
+    /* Animación continua */
+    @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+    .track{display:inline-flex;width:max-content;will-change:transform}
+    .marquee{animation:marquee var(--dur,28s) linear infinite}
+    .marquee-rev{animation:marquee var(--dur,32s) linear infinite reverse;animation-delay:calc(var(--dur,32s)/-2)}
+    /* Pausar solo en dispositivos con hover real (evita “no se mueve” en móvil) */
+    @media (hover:hover){ .group:hover .track{animation-play-state:paused} }
+
+    @media (prefers-reduced-motion: reduce){
+      .marquee,.marquee-rev{animation:none!important;transform:none!important}
+    }
+  </style>
+</head>
+
+<!-- TESTIMONIOOOOOS-->
+
+  <!-- Título Times New Roman -->
+  <header class="mt-24 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8">
+
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-gray-300/30 to-transparent mt-12"></div>
+
+    <h1 style="font-family:'Times New Roman', Times, serif"
+        class="text-center text-4xl sm:text-5xl md:text-6xl tracking-tight font-bold uppercase">
+      Testimoniales
+    </h1>
+  </header>
+
+  <section class="relative mx-auto max-w-7xl overflow-hidden py-6 sm:py-10
+  [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]
+  [mask-size:100%_100%] [mask-repeat:no-repeat]">
+
+
+    <!-- ===== FILA 1 ===== -->
+    <div class="group isolate px-4 sm:px-6">
+      <div class="track marquee gap-4 sm:gap-6" style="--dur:28s">
+        <ul class="lane flex w-max items-stretch gap-4 sm:gap-6" id="lane-1">
+          <!-- Card 1 -->
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <!-- Comillas -->
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/>
+              </svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">
+                Reservé <em>Fundamentos de Estadística</em> desde el móvil y en cinco minutos tenía confirmación. El retiro por locker fue rapidísimo.
+              </p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=41" alt="">
+                <div><p class="font-medium">María López</p><p class="text-sm text-gray-500">Ing. Industrial · 3er año</p></div>
+              </div>
+            </article>
+          </li>
+          <!-- Card 2 -->
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">
+                La lista de espera me avisó al liberarse un ejemplar de Derecho Romano. Entré y confirmé en segundos.
+              </p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=12" alt="">
+                <div><p class="font-medium">Diego Álvarez</p><p class="text-sm text-gray-500">Derecho · 2º año</p></div>
+              </div>
+            </article>
+          </li>
+          <!-- Card 3 -->
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">
+                Ver ediciones y ubicaciones me evita vueltas innecesarias entre estanterías.
+              </p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=43" alt="">
+                <div><p class="font-medium">Ana Morales</p><p class="text-sm text-gray-500">Letras · 4º año</p></div>
+              </div>
+            </article>
+          </li>
+          <!-- Card 4 -->
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">
+                Renové el préstamo desde el celular y evité la multa. Notificaciones claras.
+              </p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=33" alt="">
+                <div><p class="font-medium">Luis Ramírez</p><p class="text-sm text-gray-500">Medicina · Internado</p></div>
+              </div>
+            </article>
+          </li>
+        </ul>
+        <!-- Clon A por JS -->
+        <ul class="lane flex w-max items-stretch gap-4 sm:gap-6" id="lane-1-dup"></ul>
+      </div>
+    </div>
+
+    <div class="h-6 sm:h-8"></div>
+
+    <!-- ===== FILA 2 ===== -->
+    <div class="group isolate px-4 sm:px-6">
+      <div class="track marquee-rev gap-4 sm:gap-6" style="--dur:32s">
+        <ul class="lane flex w-max items-stretch gap-4 sm:gap-6" id="lane-2">
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">Busqué por ISBN y encontré la edición exacta para Química Orgánica. Sin confusiones.</p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=64" alt="">
+                <div><p class="font-medium">Andrés Fuentes</p><p class="text-sm text-gray-500">Química · 4º año</p></div>
+              </div>
+            </article>
+          </li>
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">Reservé una sala de estudio y el sistema sincronizó mi horario con el retiro del libro del curso.</p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=46" alt="">
+                <div><p class="font-medium">Gabriela Soto</p><p class="text-sm text-gray-500">Arquitectura · 5º año</p></div>
+              </div>
+            </article>
+          </li>
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">Los avisos antes del vencimiento me dieron tiempo para renovar desde el bus.</p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=47" alt="">
+                <div><p class="font-medium">Paola Díaz</p><p class="text-sm text-gray-500">Psicología · 3er año</p></div>
+              </div>
+            </article>
+          </li>
+          <li class="t-card">
+            <article class="relative flex-none w-[86vw] sm:w-[360px] rounded-2xl bg-white p-5 sm:p-6 shadow-sm ring-1 ring-gray-200 flex flex-col">
+              <svg class="absolute left-4 top-4 h-6 w-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v7A3.5 3.5 0 0 0 6.5 21H9v-7H6.5a1.5 1.5 0 0 1 0-3H9V6H7.5Zm10 0A4.5 4.5 0 0 0 13 10.5v7a3.5 3.5 0 0 0 3.5 3.5H19v-7h-2.5a1.5 1.5 0 0 1 0-3H19V6h-1.5Z"/></svg>
+              <p class="pl-7 text-base sm:text-lg leading-relaxed flex-1">Separé bibliografía por cada ramo y veo disponibilidad en tiempo real.</p>
+              <div class="mt-5 flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://i.pravatar.cc/80?img=48" alt="">
+                <div><p class="font-medium">Valentina Rivas</p><p class="text-sm text-gray-500">Comunicación · 2º año</p></div>
+              </div>
+            </article>
+          </li>
+        </ul>
+        <!-- Clon B por JS -->
+        <ul class="lane flex w-max items-stretch gap-4 sm:gap-6" id="lane-2-dup"></ul>
+      </div>
+    </div> 
+    <!--Linea final de seccion-->
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-gray-300/30 to-transparent mt-12"></div>
+
+  </section>
+
+  <script>
+    // Duplica la lista para un bucle perfecto
+    function cloneLane(id){
+      const src=document.getElementById(id);
+      const dup=document.getElementById(id+'-dup');
+      dup.innerHTML=src.innerHTML;
+    }
+    // Igualar alturas entre todas las cards
+    function equalizeHeights(){
+      const cards=[...document.querySelectorAll('.t-card > article')];
+      cards.forEach(c=>c.style.height='');
+      let h=0; cards.forEach(c=>h=Math.max(h,c.getBoundingClientRect().height));
+      cards.forEach(c=>c.style.height=Math.ceil(h)+'px');
+    }
+    cloneLane('lane-1'); cloneLane('lane-2');
+    equalizeHeights();
+    addEventListener('resize', equalizeHeights, {passive:true});
+    addEventListener('load', equalizeHeights);
+    document.querySelectorAll('img').forEach(i=>i.addEventListener('load', equalizeHeights, {passive:true}));
+  </script>
+  </main>
+
+  <!-- ============================= FOOTER ============================= -->
+  <footer class="w-full bg-[#F4F0E8]" aria-labelledby="footer-title">
+    <!-- Línea decorativa superior -->
+    <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+
+    <div class="mx-auto max-w-7xl px-6 sm:px-8 pt-10 pb-8">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <!-- Columna 1 -->
+        <div>
+          <h2 id="footer-title" class="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900">FairView</h2>
+          <p class="mt-3 text-sm leading-6 text-slate-700 max-w-sm">
+            Reservá tus libros favoritos fácilmente. FairView te conecta con historias y conocimiento sin
+            complicaciones.
+          </p>
+        </div>
+
+        <!-- Columna 2 -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-700">Inicio</h3>
+          <ul class="space-y-2">
+            <li><a href="home.html"
+                class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Inicio</a></li>
+            <li><a href="#"
+                class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Categorías</a>
+            </li>
+            <li><a href="/reservas.html"
+                class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">Reservas</a></li>
+            <li><a href="faqs.html"
+                class="text-sm text-slate-700 hover:text-slate-900 hover:underline underline-offset-4">FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3 -->
+        <div>
+          <h3 class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-700">Contáctanos</h3>
+          <div class="space-y-2 text-sm">
+            <p class="text-slate-700">
+              Teléfono:
+              <a href="tel:+50255555555" class="font-medium text-slate-900 hover:underline underline-offset-4">+502 5555
+                5555</a>
+            </p>
+            <p class="text-slate-700">
+              Email:
+              <a href="mailto:contacto.fairview@gmail.com"
+                class="font-medium text-slate-900 hover:underline underline-offset-4">contacto.fairview@gmail.com</a>
+            </p>
+          </div>
+
+          <!-- Redes sociales -->
+          <div class="mt-4 flex items-center gap-3">
+            <a href="#" aria-label="Facebook" class="block transition-opacity text-inherit hover:opacity-80">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+
+            <a href="#" class="block transition-opacity text-inherit hover:opacity-80" aria aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 71 72" fill="none">
+                <path
+                  d="M27.3762 35.7808C27.3762 31.1786 31.1083 27.4468 35.7132 27.4468C40.3182 27.4468 44.0522 31.1786 44.0522 35.7808C44.0522 40.383 40.3182 44.1148 35.7132 44.1148C31.1083 44.1148 27.3762 40.383 27.3762 35.7808ZM22.8683 35.7808C22.8683 42.8708 28.619 48.618 35.7132 48.618C42.8075 48.618 48.5581 42.8708 48.5581 35.7808C48.5581 28.6908 42.8075 22.9436 35.7132 22.9436C28.619 22.9436 22.8683 28.6908 22.8683 35.7808ZM46.0648 22.4346C46.0646 23.0279 46.2404 23.608 46.5701 24.1015C46.8997 24.595 47.3684 24.9797 47.9168 25.2069C48.4652 25.4342 49.0688 25.4939 49.6511 25.3784C50.2334 25.2628 50.7684 24.9773 51.1884 24.5579C51.6084 24.1385 51.8945 23.6041 52.0105 23.0222C52.1266 22.4403 52.0674 21.8371 51.8404 21.2888C51.6134 20.7406 51.2289 20.2719 50.7354 19.942C50.2418 19.6122 49.6615 19.436 49.0679 19.4358H49.0667C48.2708 19.4361 47.5077 19.7522 46.9449 20.3144C46.3821 20.8767 46.0655 21.6392 46.0648 22.4346ZM25.6072 56.1302C23.1683 56.0192 21.8427 55.6132 20.9618 55.2702C19.7939 54.8158 18.9606 54.2746 18.0845 53.4002C17.2083 52.5258 16.666 51.6938 16.2133 50.5266C15.8699 49.6466 15.4637 48.3214 15.3528 45.884C15.2316 43.2488 15.2073 42.4572 15.2073 35.781C15.2073 29.1048 15.2336 28.3154 15.3528 25.678C15.4639 23.2406 15.8731 21.918 16.2133 21.0354C16.668 19.8682 17.2095 19.0354 18.0845 18.1598C18.9594 17.2842 19.7919 16.7422 20.9618 16.2898C21.8423 15.9466 23.1683 15.5406 25.6072 15.4298C28.244 15.3086 29.036 15.2844 35.7132 15.2844C42.3904 15.2844 43.1833 15.3106 45.8223 15.4298C48.2612 15.5408 49.5846 15.9498 50.4677 16.2898C51.6356 16.7422 52.4689 17.2854 53.345 18.1598C54.2211 19.0342 54.7615 19.8682 55.2161 21.0354C55.5595 21.9154 55.9658 23.2406 56.0767 25.678C56.1979 28.3154 56.2221 29.1048 56.2221 35.781C56.2221 42.4572 56.1979 43.2466 56.0767 45.884C55.9656 48.3214 55.5573 49.6462 55.2161 50.5266C54.7615 51.6938 54.2199 52.5266 53.345 53.4002C52.4701 54.2738 51.6356 54.8158 50.4677 55.2702C49.5872 55.6134 48.2612 56.0194 45.8223 56.1302C43.1855 56.2514 42.3934 56.2756 35.7132 56.2756C29.033 56.2756 28.2432 56.2514 25.6072 56.1302ZM25.4001 10.9322C22.7371 11.0534 20.9174 11.4754 19.3282 12.0934C17.6824 12.7316 16.2892 13.5878 14.897 14.977C13.5047 16.3662 12.6502 17.7608 12.0116 19.4056C11.3933 20.9948 10.971 22.8124 10.8497 25.4738C10.7265 28.1394 10.6982 28.9916 10.6982 35.7808C10.6982 42.57 10.7265 43.4222 10.8497 46.0878C10.971 48.7494 11.3933 50.5668 12.0116 52.156C12.6502 53.7998 13.5049 55.196 14.897 56.5846C16.289 57.9732 17.6824 58.8282 19.3282 59.4682C20.9204 60.0862 22.7371 60.5082 25.4001 60.6294C28.0687 60.7506 28.92 60.7808 35.7132 60.7808C42.5065 60.7808 43.3592 60.7526 46.0264 60.6294C48.6896 60.5082 50.5081 60.0862 52.0983 59.4682C53.7431 58.8282 55.1373 57.9738 56.5295 56.5846C57.9218 55.1954 58.7745 53.7998 59.4149 52.156C60.0332 50.5668 60.4575 48.7492 60.5768 46.0878C60.698 43.4202 60.7262 42.57 60.7262 35.7808C60.7262 28.9916 60.698 28.1394 60.5768 25.4738C60.4555 22.8122 60.0332 20.9938 59.4149 19.4056C58.7745 17.7618 57.9196 16.3684 56.5295 14.977C55.1395 13.5856 53.7431 12.7316 52.1003 12.0934C50.5081 11.4754 48.6894 11.0514 46.0284 10.9322C43.3612 10.811 42.5085 10.7808 35.7152 10.7808C28.922 10.7808 28.0687 10.809 25.4001 10.9322Z"
+                  fill="#111827" />
+              </svg></a>
+
+
+            <a href="#" aria-label="X" class="block transition-opacity text-inherit hover:opacity-80">
+              <svg class="h-4 w-4 text-slate-700 transition group-hover:scale-105" fill="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Línea y nota legal final -->
+        <div class="mt-10 border-t border-slate-300/70"></div>
+        <div class="flex flex-col items-center justify-between gap-4 py-6 md:flex-row">
+          <p class="text-xs text-slate-600 text-center md:text-left">
+            © 2025 <span class="font-medium text-slate-800">FairView</span>. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================= MODAL DE LIBRO ============================= -->
+  <!--
+    Estructura:
+    - Fondo oscuro que cierra la modal al hacer clic.
+    - Contenedor centrado con grid: imagen a la izquierda, datos a la derecha.
+    - Los IDs con prefijo bm* se rellenan dinámicamente desde los data-* de la tarjeta.
+  -->
+  <div id="bookModal" class="hidden fixed inset-0 z-[100]">
+    <!-- Fondo -->
+    <div id="bookModalOverlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+    <!-- Contenedor principal de la tarjeta modal -->
+    <div class="relative mx-auto w-full max-w-3xl mt-20 px-4">
+      <div class="rounded-2xl bg-white shadow-xl ring-1 ring-black/5 overflow-hidden">
+        <!-- Header con título y botón cerrar -->
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+          <h3 id="bmTitleTop" class="text-lg font-bold">Título del libro</h3>
+          <button id="bookModalClose" aria-label="Cerrar" class="p-2 rounded-full hover:bg-gray-100">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Cuerpo  -->
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 max-h-[78svh] overflow-y-auto md:max-h-none md:overflow-visible">
+
+          <!-- Foto del libro -->
+          <div class="flex items-center justify-center">
+            <img id="bmImage" src="" alt="" class="max-h-80 w-auto object-contain rounded-lg">
+          </div>
+
+          <!-- Datos del libro -->
+          <div class="flex flex-col gap-3">
+            <h4 id="bmTitle" class="text-xl font-extrabold"></h4>
+            <p class="text-sm text-gray-600">Autor: <span id="bmAuthor" class="font-medium text-ink"></span></p>
+
+            <!-- Rating dinámico con estrellas -->
+            <div class="flex items-center gap-2">
+              <div id="bmStars" class="flex items-center gap-1 text-lime-500"></div>
+              <span id="bmRatingText" class="text-xs text-gray-500"></span>
+            </div>
+
+            <!-- Descripción breve -->
+            <p id="bmDesc" class="text-sm text-gray-700 leading-relaxed"></p>
+
+         <!-- Datos de ficha técnica + botones -->
+<div class="mt-2 grid grid-cols-2 gap-3 text-sm">
+  <div class="bg-gray-50 rounded-lg p-3">
+    <p class="text-gray-500">ISBN</p>
+    <p id="bmISBN" class="font-semibold text-ink"></p>
+  </div>
+  <div class="bg-gray-50 rounded-lg p-3">
+    <p class="text-gray-500">Año</p>
+    <p id="bmYear" class="font-semibold text-ink"></p>
+  </div>
+  <div class="bg-gray-50 rounded-lg p-3">
+    <p class="text-gray-500">Páginas</p>
+    <p id="bmPages" class="font-semibold text-ink"></p>
+  </div>
+  <div class="bg-gray-50 rounded-lg p-3">
+    <p class="text-gray-500">Género</p>
+    <p id="bmGenero" class="font-semibold text-ink"></p>
+  </div>
+
+  <!-- fila completa con los botones -->
+  <div class="col-span-2 flex flex-wrap items-center gap-3 mt-2">
+    <button
+      class="btn-reservar inline-flex items-center gap-2 px-4 h-11 rounded-lg bg-indigo-900 text-white hover:opacity-90 transition">
+      <i class="fa-solid fa-book-open"></i>
+      Reservar
+    </button>
+    <button
+      class="inline-flex items-center gap-2 px-4 h-11 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+      <i class="fa-regular fa-heart"></i>
+      Añadir a lista
+    </button>
+  </div>
+</div>
+
+
+
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>
